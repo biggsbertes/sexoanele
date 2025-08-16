@@ -91,6 +91,11 @@ function createTables() {
     FOREIGN KEY (tracking_code) REFERENCES leads (tracking)
   )`);
 
+  // Evitar pagamentos pendentes duplicados para o mesmo tracking e tipo
+  db.run(`CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_pending_payment
+          ON payments(tracking_code, payment_type)
+          WHERE status = 'pending'`);
+
   // Tabela de pedidos (orders)
   db.run(`CREATE TABLE IF NOT EXISTS orders (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -823,6 +828,27 @@ app.post('/api/payments', (req, res) => {
             VALUES (?, ?, ?, 'pending', ?, ?)
           `, [tracking_code, amountNumber, payment_type, pix_code_value || null, external_id_value || order_id || null], function (insertErr) {
             if (insertErr) {
+              const msg = String(insertErr && insertErr.message || '');
+              if (msg.includes('UNIQUE')) {
+                // Já existe um pagamento pendente igual — reutilizar
+                return db.get(
+                  `SELECT id, pix_code, order_id FROM payments
+                   WHERE tracking_code = ? AND payment_type = ? AND status = 'pending'
+                   ORDER BY id DESC LIMIT 1`,
+                  [tracking_code, payment_type],
+                  (selErr, row) => {
+                    if (selErr || !row) {
+                      return res.status(409).json({ error: 'Pagamento duplicado' });
+                    }
+                    return res.json({
+                      message: 'Pagamento já existente (reutilizado)',
+                      payment_id: row.id,
+                      pix_code: row.pix_code || null,
+                      provider_order_id: row.order_id || null
+                    });
+                  }
+                );
+              }
               return res.status(500).json({ error: 'Erro ao registrar pagamento' });
             }
             return res.json({
