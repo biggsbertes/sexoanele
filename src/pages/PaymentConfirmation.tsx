@@ -26,43 +26,10 @@ export function PaymentConfirmation() {
 
   const handleFreteExpressPayment = async () => {
     setIsGeneratingFretePayment(true)
-    
-    // Usar o trackingCode diretamente do URL params, não do trackingData
-    const currentTrackingCode = trackingCode || "EXPRESS"
-    
-    try {
-      console.log('Tentando registrar pagamento PIX para:', currentTrackingCode)
-      
-      // Registrar pagamento PIX do frete express na API
-      const response = await fetch('/api/payments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          tracking_code: currentTrackingCode,
-          amount: 15.40,
-          payment_type: 'frete_express',
-          order_id: `FE-${currentTrackingCode}`
-        })
-      });
-
-      if (response.ok) {
-        const paymentData = await response.json();
-        console.log('✅ Pagamento PIX do frete express registrado com sucesso:', paymentData);
-      } else {
-        const errorData = await response.text();
-        console.error('❌ Erro ao registrar pagamento PIX do frete express:', response.status, errorData);
-      }
-    } catch (error) {
-      console.error('❌ Erro ao registrar pagamento do frete express:', error);
-    }
-
-    // Simular geração do pagamento
     setTimeout(() => {
       setIsGeneratingFretePayment(false)
       setShowFreteExpressModal(true)
-    }, 2000)
+    }, 1000)
   }
 
   useEffect(() => {

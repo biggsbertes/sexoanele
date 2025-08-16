@@ -301,50 +301,10 @@ const TrackingResult = () => {
                 {/* Botão de Pagamento */}
                 <div className="text-center flex justify-center items-center">
                   <button 
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 sm:py-4 px-4 sm:px-8 rounded-lg transition-all duration-200 shadow-md text-sm sm:text-base w-auto flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                    onClick={async () => {
-                      setIsGeneratingPayment(true)
-                      
-                      try {
-                        // Registrar pagamento PIX na API
-                        const response = await fetch('/api/payments', {
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/json',
-                          },
-                          body: JSON.stringify({
-                            tracking_code: trackingData.tracking,
-                            amount: feeBreakdown.total,
-                            payment_type: 'taxa_liberacao',
-                            order_id: trackingData.tracking
-                          })
-                        });
-
-                        if (response.ok) {
-                          const paymentData = await response.json();
-                          console.log('Pagamento PIX registrado:', paymentData);
-                        } else {
-                          console.error('Erro ao registrar pagamento PIX');
-                        }
-                      } catch (error) {
-                        console.error('Erro ao registrar pagamento:', error);
-                      }
-
-                      // Simular delay de geração do pagamento
-                      await new Promise(resolve => setTimeout(resolve, 2000))
-                      setIsGeneratingPayment(false)
-                      setIsPixModalOpen(true)
-                    }}
-                    disabled={isGeneratingPayment}
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 sm:py-4 px-4 sm:px-8 rounded-lg transition-all duration-200 shadow-md text-sm sm:text-base w-auto flex items-center justify-center space-x-2"
+                    onClick={() => setIsPixModalOpen(true)}
                   >
-                    {isGeneratingPayment ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                        <span>Processando...</span>
-                      </>
-                    ) : (
-                      <span>Pagar Taxa de Liberação</span>
-                    )}
+                    <span>Pagar Taxa de Liberação</span>
                   </button>
                 </div>
               </div>
