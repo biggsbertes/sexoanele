@@ -1,0 +1,615 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Animações customizadas para o chat */
+@keyframes tracking-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+}
+
+@keyframes slow-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes truck-running {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  25% {
+    transform: translateX(2px) scale(1.05);
+  }
+  50% {
+    transform: translateX(4px) scale(1.1);
+  }
+  75% {
+    transform: translateX(2px) scale(1.05);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slide-in-from-bottom-2 {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-from-bottom-4 {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-to-bottom {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Classes utilitárias para animações */
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.slide-in-from-bottom-2 {
+  animation-name: slide-in-from-bottom-2;
+}
+
+.slide-in-from-bottom-4 {
+  animation-name: slide-in-from-bottom-4;
+}
+
+.slide-out-to-bottom {
+  animation-name: slide-out-to-bottom;
+}
+
+.fade-in {
+  animation-name: fade-in;
+}
+
+.fade-out {
+  animation-name: fade-out;
+}
+
+.animate-tracking-pulse {
+  animation: tracking-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-slow-pulse {
+  animation: slow-pulse 3s ease-in-out infinite;
+}
+
+.animate-truck-running {
+  animation: truck-running 2s ease-in-out infinite;
+}
+
+.duration-300 {
+  animation-duration: 300ms;
+}
+
+/* Estilos específicos para o chat */
+#chat-messages {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted)) transparent;
+}
+
+#chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--muted));
+  border-radius: 3px;
+}
+
+/* Garantir que as mensagens não saiam do container */
+.chat-message-container {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Modo Dark para Admin Dashboard */
+.admin-dark-mode {
+  background-color: #111111 !important;
+  color: #ffffff !important;
+}
+
+.admin-dark-mode .bg-background {
+  background-color: #111111 !important;
+}
+
+.admin-dark-mode .text-foreground {
+  color: #ffffff !important;
+}
+
+.admin-dark-mode .text-muted-foreground {
+  color: #cccccc !important;
+}
+
+.admin-dark-mode .bg-muted {
+  background-color: #1a1a1a !important;
+}
+
+.admin-dark-mode .bg-muted\/50 {
+  background-color: rgba(26, 26, 26, 0.5) !important;
+}
+
+.admin-dark-mode .border {
+  border-color: #333333 !important;
+}
+
+.admin-dark-mode .hover\:bg-muted\/50:hover {
+  background-color: rgba(40, 40, 40, 0.8) !important;
+}
+
+.admin-dark-mode .gradient-card {
+  background: linear-gradient(135deg, #1a1a1a, #222222) !important;
+  border-color: #333333 !important;
+}
+
+.admin-dark-mode .shadow-card {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+.admin-dark-mode .shadow-hero {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6) !important;
+}
+
+.admin-dark-mode .bg-primary {
+  background-color: #2563eb !important;
+}
+
+.admin-dark-mode .text-primary {
+  color: #60a5fa !important;
+}
+
+.admin-dark-mode .text-green-600 {
+  color: #22c55e !important;
+}
+
+.admin-dark-mode .bg-yellow-500 {
+  background-color: #eab308 !important;
+}
+
+.admin-dark-mode .bg-red-500 {
+  background-color: #ef4444 !important;
+}
+
+.admin-dark-mode .bg-blue-500 {
+  background-color: #3b82f6 !important;
+}
+
+.admin-dark-mode .bg-gray-400 {
+  background-color: #9ca3af !important;
+}
+
+.admin-dark-mode .bg-gray-500 {
+  background-color: #6b7280 !important;
+}
+
+/* Sobrescrever todos os textos que podem estar em preto */
+.admin-dark-mode h1,
+.admin-dark-mode h2,
+.admin-dark-mode h3,
+.admin-dark-mode h4,
+.admin-dark-mode h5,
+.admin-dark-mode h6 {
+  color: #ffffff !important;
+}
+
+.admin-dark-mode p,
+.admin-dark-mode span,
+.admin-dark-mode div {
+  color: inherit !important;
+}
+
+/* Sobrescrever textos específicos dos cards */
+.admin-dark-mode .card-title,
+.admin-dark-mode [data-radix-collection-item] {
+  color: #ffffff !important;
+}
+
+/* Sobrescrever textos dos botões */
+.admin-dark-mode button {
+  color: inherit !important;
+}
+
+/* Sobrescrever textos das tabelas */
+.admin-dark-mode th,
+.admin-dark-mode td {
+  color: #ffffff !important;
+}
+
+/* Sobrescrever textos dos inputs */
+.admin-dark-mode input::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Sobrescrever textos dos badges */
+.admin-dark-mode .badge {
+  color: #ffffff !important;
+}
+
+/* Sobrescrever textos específicos do shadcn/ui */
+.admin-dark-mode [class*="text-"] {
+  color: #ffffff !important;
+}
+
+.admin-dark-mode [class*="text-foreground"] {
+  color: #ffffff !important;
+}
+
+.admin-dark-mode [class*="text-muted-foreground"] {
+  color: #cccccc !important;
+}
+
+/* Sobrescrever textos dos títulos dos cards */
+.admin-dark-mode .card-title,
+.admin-dark-mode [data-radix-collection-item],
+.admin-dark-mode [role="heading"] {
+  color: #ffffff !important;
+}
+
+/* Sobrescrever textos dos inputs e placeholders */
+.admin-dark-mode input,
+.admin-dark-mode input::placeholder,
+.admin-dark-mode textarea,
+.admin-dark-mode textarea::placeholder {
+  color: #ffffff !important;
+}
+
+.admin-dark-mode input::placeholder,
+.admin-dark-mode textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Design system para rastreio de encomendas - cores logísticas modernas */
+
+@layer base {
+
+  :root {
+    --background: 250 250% 99%;
+    --foreground: 340 10% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 340 10% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 340 10% 15%;
+
+    /* Paleta Jadlog-inspired: Vermelho/bordô como primário */
+    --primary: 345 84% 48%;
+    --primary-glow: 345 84% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 11% 96%;
+    --secondary-foreground: 340 10% 15%;
+
+    --muted: 210 11% 96%;
+    --muted-foreground: 215 13% 65%;
+
+    --accent: 24 84% 58%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Status colors - tons mais suaves */
+    --status-pending: 38 84% 58%;
+    --status-processing: 217 84% 58%;
+    --status-transit: 262 70% 58%;
+    --status-delivered: 142 60% 45%;
+    --status-warning: 25 84% 58%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 20% 92%;
+    --input: 210 20% 95%;
+    --ring: 345 84% 48%;
+
+    --radius: 0.75rem;
+
+    /* Gradientes Jadlog-inspired */
+    --gradient-primary: linear-gradient(135deg, hsl(345 84% 48%), hsl(345 84% 58%));
+    --gradient-hero: linear-gradient(135deg, hsl(345 84% 48%), hsl(24 84% 58%));
+    --gradient-success: linear-gradient(135deg, hsl(142 60% 45%), hsl(142 60% 55%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(250 250% 99%));
+    --gradient-accent: linear-gradient(135deg, hsl(24 84% 58%), hsl(38 84% 58%));
+
+    /* Sombras suaves estilo Jadlog */
+    --shadow-card: 0 2px 8px -2px hsl(345 84% 48% / 0.08), 0 1px 4px -1px hsl(345 84% 48% / 0.04);
+    --shadow-hero: 0 16px 32px -8px hsl(345 84% 48% / 0.15);
+    --shadow-glow: 0 0 32px hsl(345 84% 58% / 0.25);
+    --shadow-soft: 0 1px 3px 0 hsl(345 84% 48% / 0.1);
+
+    /* Transições refinadas */
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 240 10% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 217 78% 51%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217 78% 51%;
+  }
+
+  .dark {
+    --background: 340 10% 8%;
+    --foreground: 250 250% 98%;
+
+    --card: 340 10% 10%;
+    --card-foreground: 250 250% 98%;
+
+    --popover: 340 10% 10%;
+    --popover-foreground: 250 250% 98%;
+
+    --primary: 345 84% 58%;
+    --primary-glow: 345 84% 68%;
+    --primary-foreground: 340 10% 8%;
+
+    --secondary: 340 8% 18%;
+    --secondary-foreground: 250 250% 98%;
+
+    --muted: 340 8% 18%;
+    --muted-foreground: 215 13% 65%;
+
+    --accent: 24 84% 68%;
+    --accent-foreground: 340 10% 8%;
+
+    /* Status colors - dark mode */
+    --status-pending: 38 84% 68%;
+    --status-processing: 217 84% 68%;
+    --status-transit: 262 70% 68%;
+    --status-delivered: 142 60% 55%;
+    --status-warning: 25 84% 68%;
+
+    --destructive: 0 84% 70%;
+    --destructive-foreground: 340 10% 8%;
+
+    --border: 340 8% 18%;
+    --input: 340 8% 18%;
+    --ring: 345 84% 58%;
+
+    /* Dark mode gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(345 84% 58%), hsl(345 84% 68%));
+    --gradient-hero: linear-gradient(135deg, hsl(345 84% 58%), hsl(24 84% 68%));
+    --gradient-success: linear-gradient(135deg, hsl(142 60% 55%), hsl(142 60% 65%));
+    --gradient-card: linear-gradient(145deg, hsl(340 10% 10%), hsl(340 8% 18%));
+    --gradient-accent: linear-gradient(135deg, hsl(24 84% 68%), hsl(38 84% 68%));
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 217 78% 61%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217 78% 61%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  /* Animações personalizadas */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-fade-scale {
+    animation: fade-scale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+  }
+
+  .animate-typewriter {
+    animation: typewriter 2s steps(40, end) forwards;
+  }
+
+  .animate-blink-caret {
+    animation: blink-caret 0.75s step-end infinite;
+  }
+
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  .animate-delay-700 {
+    animation-delay: 700ms;
+  }
+
+  @keyframes scroll-x {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll-x {
+    animation: scroll-x 30s linear infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); }
+    50% { box-shadow: 0 0 30px hsl(var(--primary) / 0.5); }
+  }
+
+  @keyframes fade-scale {
+    from {
+      opacity: 0;
+      transform: scale(0.8) rotate(-2deg);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes typewriter {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes blink-caret {
+    from, to {
+      border-color: transparent;
+    }
+    50% {
+      border-color: currentColor;
+    }
+  }
+  
+  @keyframes buttonPulse {
+    0%, 100% { 
+      transform: scale(1);
+      box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1), 0 2px 4px -1px rgba(59, 130, 246, 0.06);
+    }
+    50% { 
+      transform: scale(1.02);
+      box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -2px rgba(59, 130, 246, 0.1);
+    }
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% { 
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% { 
+      opacity: 0.95;
+      transform: scale(1.005);
+    }
+  }
+
+  /* Classes utilitárias personalizadas */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-success {
+    background: var(--gradient-success);
+  }
+
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-hero {
+    box-shadow: var(--shadow-hero);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+}
