@@ -72,7 +72,7 @@ export function AdminImport() {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:8080/api/import-csv', {
+      const response = await fetch('/api/import-csv', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

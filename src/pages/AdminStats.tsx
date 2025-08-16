@@ -51,7 +51,7 @@ export function AdminStats() {
       const token = localStorage.getItem('adminToken');
       
       // Buscar estatísticas básicas
-      const statsResponse = await fetch('http://localhost:8080/api/stats', {
+      const statsResponse = await fetch('/api/stats', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -63,7 +63,7 @@ export function AdminStats() {
       }
 
       // Buscar leads para análises
-      const leadsResponse = await fetch('http://localhost:8080/api/leads?limit=1000', {
+      const leadsResponse = await fetch('/api/leads?limit=1000', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
