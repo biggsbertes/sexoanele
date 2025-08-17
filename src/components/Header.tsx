@@ -144,11 +144,7 @@ const Header = () => {
                  {menuItems.map((item, index) => (
                    <a
                      key={index}
-                     href={item === "Sobre a Jadlog" ? "/sobre" : "#"}
-                     onClick={item === "Sobre a Jadlog" ? (e) => {
-                       e.preventDefault();
-                       navigate('/sobre');
-                     } : undefined}
+                     href="#"
                      className="text-gray-700 font-medium text-sm transition-all duration-200 hover:scale-105"
                      style={{ color: '#374151' }}
                      onMouseEnter={(e) => {
@@ -174,11 +170,7 @@ const Header = () => {
                {menuItems.map((item, index) => (
                  <a
                    key={index}
-                   href={item === "Sobre a Jadlog" ? "/sobre" : "#"}
-                   onClick={item === "Sobre a Jadlog" ? (e) => {
-                     e.preventDefault();
-                     navigate('/sobre');
-                   } : undefined}
+                   href="#"
                    className="text-gray-700 hover:text-[#eb0945] font-medium text-sm py-2 transition-all duration-200 hover:translate-x-2 hover:pl-2"
                  >
                    {item}

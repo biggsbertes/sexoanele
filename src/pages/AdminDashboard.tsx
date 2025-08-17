@@ -16,7 +16,8 @@ import {
   DollarSign,
   MessageCircle,
   MessageSquare,
-  Trash2
+  Trash2,
+  Download
 } from 'lucide-react';
 import {
   AlertDialog,
@@ -281,6 +282,94 @@ export function AdminDashboard() {
     });
   };
 
+  // Função para exportar pagamentos pagos em CSV
+  const exportPaidPaymentsCSV = () => {
+    const paidPayments = allPayments.filter(payment => payment.status === 'paid');
+    
+    if (paidPayments.length === 0) {
+      alert('Não há pagamentos pagos para exportar.');
+      return;
+    }
+
+    const headers = [
+      'ID',
+      'Código de Rastreio',
+      'Nome do Cliente',
+      'Produto',
+      'Tipo de Pagamento',
+      'Valor',
+      'Status',
+      'Data de Criação'
+    ];
+
+    const csvContent = [
+      headers.join(','),
+      ...paidPayments.map(payment => [
+        payment.id,
+        payment.tracking_code,
+        payment.lead_nome || 'N/A',
+        payment.lead_produto || 'N/A',
+        getPaymentTypeLabel(payment.payment_type),
+        payment.amount.toFixed(2).replace('.', ','),
+        'Pago',
+        formatDate(payment.created_at)
+      ].join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `pagamentos_pagos_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Função para exportar todos os pagamentos em CSV
+  const exportAllPaymentsCSV = () => {
+    if (allPayments.length === 0) {
+      alert('Não há pagamentos para exportar.');
+      return;
+    }
+
+    const headers = [
+      'ID',
+      'Código de Rastreio',
+      'Nome do Cliente',
+      'Produto',
+      'Tipo de Pagamento',
+      'Valor',
+      'Status',
+      'Data de Criação'
+    ];
+
+    const csvContent = [
+      headers.join(','),
+      ...allPayments.map(payment => [
+        payment.id,
+        payment.tracking_code,
+        payment.lead_nome || 'N/A',
+        payment.lead_produto || 'N/A',
+        getPaymentTypeLabel(payment.payment_type),
+        payment.amount.toFixed(2).replace('.', ','),
+        payment.status === 'paid' ? 'Pago' : 'Pendente',
+        formatDate(payment.created_at)
+      ].join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `todos_pagamentos_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleDeleteAllLeads = async () => {
     try {
       setBulkDeleting(true);
@@ -361,6 +450,22 @@ export function AdminDashboard() {
       buttonText: 'Gerenciar'
     },
     {
+      title: 'Exportar Pagamentos Pagos',
+      description: 'Exportar em CSV apenas os pedidos pagos com informações do lead',
+      icon: Download,
+      action: exportPaidPaymentsCSV,
+      color: 'bg-green-600',
+      buttonText: 'Exportar Pagos'
+    },
+    {
+      title: 'Exportar Todos os Pagamentos',
+      description: 'Exportar em CSV todos os pagamentos (pagos e pendentes) com informações do lead',
+      icon: Download,
+      action: exportAllPaymentsCSV,
+      color: 'bg-blue-600',
+      buttonText: 'Exportar Todos'
+    },
+    {
       title: isChatEnabled ? 'Desativar Chat' : 'Ativar Chat',
       description: isChatEnabled 
         ? 'Desativar o chat de suporte da página inicial' 
@@ -416,7 +521,7 @@ export function AdminDashboard() {
         </p>
       </div>
 
-      {/* Cards de estatísticas de pagamentos PIX */}
+            {/* Cards de estatísticas de pagamentos PIX */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -571,7 +676,7 @@ export function AdminDashboard() {
       {/* Ações rápidas */}
       <div>
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Ações Rápidas</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {quickActions.map((action, index) => {
             const Icon = action.icon;
             return (

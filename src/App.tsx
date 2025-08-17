@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Index from "./pages/Index";
 import TrackingResult from "./pages/TrackingResult";
-import SobreJadLog from "./pages/SobreJadLog";
 import NotFound from "./pages/NotFound";
 import { PaymentConfirmation } from "./pages/PaymentConfirmation";
 import { FreteExpressConfirmed } from "./pages/FreteExpressConfirmed";
@@ -36,7 +35,6 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path=":quickCode" element={<Index />} />
                 <Route path="/rastreio/:code" element={<TrackingResult />} />
-                <Route path="/sobre" element={<SobreJadLog />} />
                 <Route path="/pagamento-confirmado" element={<PaymentConfirmation />} />
                 <Route path="/frete-express-confirmado" element={<FreteExpressConfirmed />} />
                 

@@ -230,9 +230,109 @@ const Index = () => {
               </div>
             </div>
             </div>
-            
+
+          {/* Seção Somos a Jadlog */}
+          <div className="text-center mt-24 md:mt-28 animate-fade-in-up px-4 sm:px-6">
+            <div className="max-w-6xl mx-auto">
+              <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+                {/* Imagem */}
+                <div className="flex-1">
+                  <img 
+                    src="https://i.imgur.com/QplGChh.png" 
+                    alt="Somos a Jadlog" 
+                    className="w-full max-w-3xl mx-auto rounded-lg"
+                  />
+                </div>
+                
+                {/* Texto e botão */}
+                <div className="flex-1 text-center lg:text-left">
+                  <div className="space-y-6">
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-light leading-tight" style={{ color: '#3a3839' }}>
+                      Somos a Jadlog,<br />
+                      sua encomenda no<br />
+                      melhor caminho.
+                    </div>
+                    
+                    <div className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed space-y-2 text-left">
+                      <p>• Somos transportadores.</p>
+                      <p>• Somos pessoas.</p>
+                      <p>• Somos mais de 5.000 colaboradores diretos e indiretos.</p>
+                      <p>• Somos 7.000 veículos, caminhões e carretas que coletam e entregam sua encomenda.</p>
+                      <p>• Somos o comércio do seu lado, com 4.000 parceiros Pickup.</p>
+                      <p>• Somos parte do Grupo europeu líder em entrega de encomendas e soluções para comércio eletrónico, o Geopost.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Seção de Franquia */}
+          <div className="text-center mt-24 md:mt-28 animate-fade-in-up px-4 sm:px-6">
+            <div className="max-w-6xl mx-auto">
+              <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+                {/* Imagem da franquia */}
+                <div className="flex-1">
+                  <img 
+                    src="https://www.jadlog.com.br/jadlog/img/outdoor02.png" 
+                    alt="Seja um franqueado Jadlog" 
+                    className="w-full max-w-3xl mx-auto rounded-lg"
+                  />
+                </div>
+                
+                {/* Texto e botão */}
+                <div className="flex-1 text-center lg:text-left">
+                  <div className="space-y-6">
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-light leading-tight" style={{ color: '#3a3839' }}>
+                      Seja um franqueado<br />
+                      Jadlog e encontre<br />
+                      novos caminhos<br />
+                      para seu sucesso<br />
+                      profissional.
+                    </div>
+                    
+                    <div className="pt-4">
+                      <img 
+                        src="https://www.jadlog.com.br/jadlog/img/bt_saibamais.jpg" 
+                        alt="Saiba mais" 
+                        className="inline-block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                        style={{ maxWidth: '200px' }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
               </div>
       </main>
+
+      {/* Seção Últimas Notícias da Jadlog - Fora do main */}
+      <div className="mt-24 md:mt-28">
+        {/* Título e descrição */}
+        <div className="container mx-auto px-6 py-16">
+          <div className="max-w-5xl mx-auto text-center mb-4 md:mb-8 animate-fade-in">
+            <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-heading font-bold mb-3 md:mb-4 leading-tight" style={{ color: '#3a3839' }}>
+              Últimas Notícias da Jadlog
+            </h2>
+            <p className="text-sm sm:text-base md:text-base text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+              Conteúdo exclusivo para manter você sempre informado sobre tudo que acontece por aqui e no mercado.
+            </p>
+          </div>
+        </div>
+        
+        {/* Imagem do banner JadNews - Largura total apenas no mobile */}
+        <div className="w-full md:container md:mx-auto md:px-6">
+          <div className="md:max-w-4xl md:mx-auto">
+            <img 
+              src="https://www.jadlog.com.br/portal/assets/img/cint_jadnews.jpg" 
+              alt="JadNews - Últimas Notícias da Jadlog" 
+              className="w-full md:rounded-lg"
+            />
+          </div>
+        </div>
+      </div>
 
       {/* Footer reformulado */}
       <footer className="border-t bg-muted/30 mt-16 md:mt-20">

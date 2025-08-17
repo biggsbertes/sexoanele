@@ -91,10 +91,8 @@ function createTables() {
     FOREIGN KEY (tracking_code) REFERENCES leads (tracking)
   )`);
 
-  // Evitar pagamentos pendentes duplicados para o mesmo tracking e tipo
-  db.run(`CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_pending_payment
-          ON payments(tracking_code, payment_type)
-          WHERE status = 'pending'`);
+  // Evitar pagamentos pendentes duplicados para o mesmo tracking e tipo (com migração de dados)
+  ensurePendingUniqueIndex();
 
   // Tabela de pedidos (orders)
   db.run(`CREATE TABLE IF NOT EXISTS orders (
@@ -127,6 +125,80 @@ function createTables() {
       });
     }
   });
+}
+
+// Garante índice único para pagamentos pendentes e corrige duplicidades existentes
+function ensurePendingUniqueIndex() {
+  // Tentar criar o índice único condicional
+  db.run(
+    `CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_pending_payment
+     ON payments(tracking_code, payment_type)
+     WHERE status = 'pending'`,
+    function (err) {
+      if (!err) return; // índice criado/ já existia
+
+      const msg = String(err && err.message || '');
+      if (!msg.toLowerCase().includes('unique')) {
+        console.error('Erro ao criar índice único de pagamentos:', err);
+        return; // não é erro de unicidade, apenas loga
+      }
+
+      // Há duplicidades pendentes existentes — deduplicar e tentar novamente
+      deduplicatePendingPayments(() => {
+        db.run(
+          `CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_pending_payment
+           ON payments(tracking_code, payment_type)
+           WHERE status = 'pending'`,
+          function (err2) {
+            if (err2) {
+              console.error('Falha ao criar índice único após deduplicação:', err2);
+            } else {
+              console.log('Índice único de pagamentos (pendentes) criado após deduplicação.');
+            }
+          }
+        );
+      });
+    }
+  );
+}
+
+// Remove duplicidades de pagamentos pendentes mantendo o registro mais recente (maior id)
+function deduplicatePendingPayments(done) {
+  db.all(
+    `SELECT tracking_code, payment_type, MAX(id) AS keep_id
+     FROM payments
+     WHERE status = 'pending'
+     GROUP BY tracking_code, payment_type
+     HAVING COUNT(*) > 1`,
+    (selErr, rows) => {
+      if (selErr || !Array.isArray(rows) || rows.length === 0) {
+        if (selErr) console.error('Erro ao buscar duplicidades pendentes:', selErr);
+        return done();
+      }
+
+      let remaining = rows.length;
+      rows.forEach((r) => {
+        db.run(
+          `DELETE FROM payments
+           WHERE status = 'pending'
+             AND tracking_code = ?
+             AND payment_type = ?
+             AND id <> ?`,
+          [r.tracking_code, r.payment_type, r.keep_id],
+          function (delErr) {
+            if (delErr) {
+              console.error('Erro ao remover duplicidades pendentes:', delErr);
+            }
+            remaining -= 1;
+            if (remaining === 0) {
+              console.log('Deduplicação de pagamentos pendentes concluída.');
+              done();
+            }
+          }
+        );
+      });
+    }
+  );
 }
 
 // Middleware de autenticação JWT
